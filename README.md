@@ -156,13 +156,11 @@ The main objective of this project is to reduce manual work in examination resul
 
 ## 👨‍💻 Developer
 
-**Jitesh Patel**
+**Name:** Jitesh Patel
 
-B.Tech – Computer Science Engineering
+**Course:** B.Tech in Computer Science and Engineering (CSE) – Artificial Intelligence & Machine Learning (AI & ML)
 
-Rungta International Skills University
-
----
+**Institute:** Rungta International Skills University, Bhilai, Chhattisgarh
 
 ## 📜 License
 
