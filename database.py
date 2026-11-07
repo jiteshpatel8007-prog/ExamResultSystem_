@@ -78,21 +78,32 @@ def get_student_by_roll(roll):
     return student
 
 
-def update_student(roll, name, maths, physics, chemistry):
+def update_student(old_roll, new_roll, name, maths, physics, chemistry):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
-    cursor.execute("""
-        UPDATE students
-        SET name = ?, maths = ?, physics = ?, chemistry = ?
-        WHERE roll = ?
-    """, (name, maths, physics, chemistry, roll))
+    try:
+        cursor.execute("""
+            UPDATE students
+            SET roll = ?, name = ?, maths = ?, physics = ?, chemistry = ?
+            WHERE roll = ?
+        """, (new_roll, name, maths, physics, chemistry, old_roll))
 
-    conn.commit()
-    updated = cursor.rowcount
-    conn.close()
+        updated = cursor.rowcount
+        conn.commit()
 
-    return updated > 0
+        return updated > 0, "Student record updated successfully."
+
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        return False, f"Roll number {new_roll} already exists."
+
+    except Exception as e:
+        conn.rollback()
+        return False, f"Error: {str(e)}"
+
+    finally:
+        conn.close()
 
 
 # ==================== DELETE STUDENT ====================

@@ -143,10 +143,11 @@ def edit(roll):
 
     if request.method == 'POST':
 
+        new_roll = request.form.get('roll', '').strip()
         name = request.form.get('name', '').strip()
 
-        if not name:
-            flash("Student name cannot be empty.", "error")
+        if not new_roll or not name:
+            flash("Roll number and Name cannot be empty.", "error")
             return redirect(url_for('edit', roll=roll))
 
         try:
@@ -165,13 +166,16 @@ def edit(roll):
             flash("Marks must be between 0 and 100.", "error")
             return redirect(url_for('edit', roll=roll))
 
-        update_student(
-            roll, name, maths, physics, chemistry
+        success, message = update_student(
+            roll, new_roll, name, maths, physics, chemistry
         )
 
-        flash("Student record updated successfully!", "success")
+        if success:
+            flash("Student record updated successfully!", "success")
+            return redirect(url_for('view'))
 
-        return redirect(url_for('view'))
+        flash(message, "error")
+        return redirect(url_for('edit', roll=roll))
 
     return render_template('edit.html', student=student)
 
