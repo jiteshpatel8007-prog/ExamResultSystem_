@@ -59,3 +59,55 @@ def get_ranked_students():
     df = pd.read_sql_query(query, conn)
     conn.close()
     return df
+
+
+# ==================== EDIT STUDENT ====================
+
+def get_student_by_roll(roll):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM students WHERE roll = ?",
+        (roll,)
+    )
+
+    student = cursor.fetchone()
+    conn.close()
+
+    return student
+
+
+def update_student(roll, name, maths, physics, chemistry):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE students
+        SET name = ?, maths = ?, physics = ?, chemistry = ?
+        WHERE roll = ?
+    """, (name, maths, physics, chemistry, roll))
+
+    conn.commit()
+    updated = cursor.rowcount
+    conn.close()
+
+    return updated > 0
+
+
+# ==================== DELETE STUDENT ====================
+
+def delete_student(roll):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM students WHERE roll = ?",
+        (roll,)
+    )
+
+    conn.commit()
+    deleted = cursor.rowcount
+    conn.close()
+
+    return deleted > 0

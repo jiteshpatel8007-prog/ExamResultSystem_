@@ -1,0 +1,62 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Student Record{% endblock %}
+
+{% block content %}
+
+<a href="/view" class="back-btn">← Back to Records</a>
+
+<h2>Edit Student Record</h2>
+
+<form action="/edit/{{ student[0] }}" method="POST">
+
+    <input
+        type="text"
+        value="{{ student[0] }}"
+        disabled
+    >
+
+    <input
+        type="text"
+        name="name"
+        placeholder="Student Name"
+        value="{{ student[1] }}"
+        required
+    >
+
+    <input
+        type="number"
+        name="maths"
+        placeholder="Maths Marks"
+        value="{{ student[2] }}"
+        min="0"
+        max="100"
+        required
+    >
+
+    <input
+        type="number"
+        name="physics"
+        placeholder="Physics Marks"
+        value="{{ student[3] }}"
+        min="0"
+        max="100"
+        required
+    >
+
+    <input
+        type="number"
+        name="chemistry"
+        placeholder="Chemistry Marks"
+        value="{{ student[4] }}"
+        min="0"
+        max="100"
+        required
+    >
+
+    <button type="submit">Update Record</button>
+
+</form>
+
+{% endblock %}

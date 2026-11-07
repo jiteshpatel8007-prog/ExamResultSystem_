@@ -1,12 +1,41 @@
 {% extends "base.html" %}
-{% block title %}Home - Exam Result System{% endblock %}
+{% block title %}Dashboard - Exam Result System{% endblock %}
 
 {% block content %}
-<div class="home-page">
-    <h2>Welcome to Exam Result Management</h2>
-    <p class="home-subtitle">Select an option below to continue</p>
 
+<div class="home-page">
+
+    <h2>Welcome to Exam Result Management</h2>
+    <p class="home-subtitle">Dashboard Overview</p>
+
+    <!-- Statistics Cards -->
+    <div class="stats-container">
+
+        <div class="stat-card">
+            <h3>Total Students</h3>
+            <p>{{ total_students }}</p>
+        </div>
+
+        <div class="stat-card pass-card">
+            <h3>Passed Students</h3>
+            <p>{{ passed_students }}</p>
+        </div>
+
+        <div class="stat-card fail-card">
+            <h3>Failed Students</h3>
+            <p>{{ failed_students }}</p>
+        </div>
+
+        <div class="stat-card average-card">
+            <h3>Average Percentage</h3>
+            <p>{{ average_percentage }}%</p>
+        </div>
+
+    </div>
+
+    <!-- Main Options -->
     <div class="home-buttons">
+
         <a href="/add" class="home-btn">
             <span class="btn-icon">➕</span>
             <span class="btn-text">Add New Record</span>
@@ -24,6 +53,9 @@
             <span class="btn-text">Rank List</span>
             <span class="btn-desc">Students sorted by total marks</span>
         </a>
+
     </div>
+
 </div>
+
 {% endblock %}

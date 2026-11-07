@@ -1,18 +1,46 @@
+
 {% extends "base.html" %}
 {% block title %}View Records{% endblock %}
 
 {% block content %}
+
 <a href="/" class="back-btn">← Back to Home</a>
 
 <h2>All Student Records</h2>
+
+<!-- Search Student -->
+<form action="/view" method="GET" class="search-form">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search by Name or Roll Number"
+        value="{{ search_query }}"
+    >
+
+    <button type="submit">Search</button>
+
+    <a href="/view" class="clear-btn">Clear</a>
+
+</form>
+
 {% if records %}
+
 <table>
     <thead>
         <tr>
-            <th>Roll</th><th>Name</th><th>Maths</th><th>Physics</th>
-            <th>Chemistry</th><th>Total</th><th>Percentage</th><th>Result</th>
+            <th>Roll</th>
+            <th>Name</th>
+            <th>Maths</th>
+            <th>Physics</th>
+            <th>Chemistry</th>
+            <th>Total</th>
+            <th>Percentage</th>
+            <th>Result</th>
+            <th>Action</th>
         </tr>
     </thead>
+
     <tbody>
         {% for rec in records %}
         <tr>
@@ -23,12 +51,41 @@
             <td>{{ rec.chemistry }}</td>
             <td>{{ rec.total }}</td>
             <td>{{ "%.2f"|format(rec.percentage) }}%</td>
-            <td class="{{ 'pass' if rec.result == 'Pass' else 'fail' }}">{{ rec.result }}</td>
+
+            <td class="{{ 'pass' if rec.result == 'Pass' else 'fail' }}">
+                {{ rec.result }}
+            </td>
+
+            <td>
+                <div class="action-buttons">
+
+                    <a href="{{ url_for('edit', roll=rec.roll) }}"
+                       class="action-btn edit-btn">
+                        Edit
+                    </a>
+
+                    <form action="{{ url_for('delete', roll=rec.roll) }}"
+                          method="POST"
+                          class="delete-form"
+                          onsubmit="return confirm('Are you sure you want to delete this student?');">
+
+                        <button type="submit" class="action-btn delete-btn">
+                            Delete
+                        </button>
+
+                    </form>
+
+                </div>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
 {% else %}
+
 <p class="empty">No records found.</p>
+
 {% endif %}
+
 {% endblock %}
