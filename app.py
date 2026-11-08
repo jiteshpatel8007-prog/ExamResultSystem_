@@ -195,17 +195,44 @@ def delete(roll):
     return redirect(url_for('view'))
 
 
-# ==================== VIEW PAGE WITH SEARCH ====================
+# ==================== VIEW PAGE WITH FILTER AND SEARCH ====================
 
 @app.route('/view')
 def view():
 
     search_query = request.args.get('search', '').strip()
+    filter_type = request.args.get('filter', 'all')
 
-    df = get_all_students()
-    df = process_dataframe(df)
+    df = process_dataframe(get_all_students())
 
+    if not df.empty:
+
+        # Total Students: Only names and roll numbers
+        if filter_type == 'all':
+            df = df.sort_values(
+                by='name',
+                key=lambda column: column.str.lower()
+            )
+
+        # Passed Students: Complete details
+        elif filter_type == 'pass':
+            df = df[df['result'] == 'Pass']
+            df = df.sort_values(
+                by='name',
+                key=lambda column: column.str.lower()
+            )
+
+        # Failed Students: Complete details
+        elif filter_type == 'fail':
+            df = df[df['result'] == 'Fail']
+            df = df.sort_values(
+                by='name',
+                key=lambda column: column.str.lower()
+            )
+
+    # Search functionality
     if not df.empty and search_query:
+
         search_lower = search_query.lower()
 
         df = df[
@@ -218,12 +245,59 @@ def view():
             )
         ]
 
-    records = df.to_dict('records') if not df.empty else []
+    # Total Students card par only name aur roll bhejna
+    if filter_type == 'all':
+        records = (
+            df[['roll', 'name']].to_dict('records')
+            if not df.empty else []
+        )
+    else:
+        records = df.to_dict('records') if not df.empty else []
 
     return render_template(
         'view.html',
         records=records,
-        search_query=search_query
+        search_query=search_query,
+        filter_type=filter_type
+    )
+
+
+# ==================== AVERAGE PERCENTAGE PAGE ====================
+
+@app.route('/average')
+def average():
+
+    df = process_dataframe(get_all_students())
+
+    if not df.empty:
+        average_percentage = round(df['percentage'].mean(), 2)
+
+        average_maths = round(df['maths'].mean(), 2)
+        average_physics = round(df['physics'].mean(), 2)
+        average_chemistry = round(df['chemistry'].mean(), 2)
+
+        passed_students = int((df['result'] == 'Pass').sum())
+        failed_students = int((df['result'] == 'Fail').sum())
+        total_students = len(df)
+
+    else:
+        average_percentage = 0
+        average_maths = 0
+        average_physics = 0
+        average_chemistry = 0
+        passed_students = 0
+        failed_students = 0
+        total_students = 0
+
+    return render_template(
+        'average.html',
+        average_percentage=average_percentage,
+        average_maths=average_maths,
+        average_physics=average_physics,
+        average_chemistry=average_chemistry,
+        passed_students=passed_students,
+        failed_students=failed_students,
+        total_students=total_students
     )
 
 

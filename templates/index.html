@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% block title %}Dashboard - Exam Result System{% endblock %}
 
@@ -8,28 +9,28 @@
     <h2>Welcome to Exam Result Management</h2>
     <p class="home-subtitle">Dashboard Overview</p>
 
-    <!-- Statistics Cards -->
+    <!-- Clickable Statistics Cards -->
     <div class="stats-container">
 
-        <div class="stat-card">
+        <a href="/view?filter=all" class="stat-card">
             <h3>Total Students</h3>
             <p>{{ total_students }}</p>
-        </div>
+        </a>
 
-        <div class="stat-card pass-card">
+        <a href="/view?filter=pass" class="stat-card pass-card">
             <h3>Passed Students</h3>
             <p>{{ passed_students }}</p>
-        </div>
+        </a>
 
-        <div class="stat-card fail-card">
+        <a href="/view?filter=fail" class="stat-card fail-card">
             <h3>Failed Students</h3>
             <p>{{ failed_students }}</p>
-        </div>
+        </a>
 
-        <div class="stat-card average-card">
+        <a href="/average" class="stat-card average-card">
             <h3>Average Percentage</h3>
             <p>{{ average_percentage }}%</p>
-        </div>
+        </a>
 
     </div>
 

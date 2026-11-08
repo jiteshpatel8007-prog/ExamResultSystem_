@@ -6,10 +6,22 @@
 
 <a href="/" class="back-btn">← Back to Home</a>
 
-<h2>All Student Records</h2>
+{% if filter_type == 'pass' %}
+    <h2>Passed Students</h2>
+{% elif filter_type == 'fail' %}
+    <h2>Failed Students</h2>
+{% else %}
+    <h2>All Student Records</h2>
+{% endif %}
 
 <!-- Search Student -->
 <form action="/view" method="GET" class="search-form">
+
+    <input
+        type="hidden"
+        name="filter"
+        value="{{ filter_type }}"
+    >
 
     <input
         type="text"
@@ -20,11 +32,37 @@
 
     <button type="submit">Search</button>
 
-    <a href="/view" class="clear-btn">Clear</a>
+    <a href="/view?filter={{ filter_type }}" class="clear-btn">Clear</a>
 
 </form>
 
 {% if records %}
+
+{% if filter_type == 'all' %}
+
+<!-- Total Students: Only Roll and Name -->
+
+<table>
+    <thead>
+        <tr>
+            <th>Roll Number</th>
+            <th>Student Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for rec in records %}
+        <tr>
+            <td>{{ rec.roll }}</td>
+            <td>{{ rec.name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+
+<!-- Passed / Failed: Complete Student Details -->
 
 <table>
     <thead>
@@ -81,6 +119,8 @@
         {% endfor %}
     </tbody>
 </table>
+
+{% endif %}
 
 {% else %}
 

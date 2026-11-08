@@ -1,0 +1,102 @@
+
+{% extends "base.html" %}
+
+{% block title %}Average Performance{% endblock %}
+
+{% block content %}
+
+<a href="/" class="back-btn">← Back to Dashboard</a>
+
+<h2>Average Performance Analytics</h2>
+<p class="home-subtitle">Student Performance Overview</p>
+
+<div class="stats-container">
+
+    <div class="stat-card average-card">
+        <h3>Average Percentage</h3>
+        <p>{{ average_percentage }}%</p>
+    </div>
+
+    <div class="stat-card pass-card">
+        <h3>Passed Students</h3>
+        <p>{{ passed_students }}</p>
+    </div>
+
+    <div class="stat-card fail-card">
+        <h3>Failed Students</h3>
+        <p>{{ failed_students }}</p>
+    </div>
+
+</div>
+
+<div class="analytics-container">
+
+    <div class="analytics-card">
+        <h3>Average Percentage</h3>
+
+        <div class="donut-chart"
+             style="--percentage: {{ average_percentage }};">
+
+            <div class="donut-inner">
+                <strong>{{ average_percentage }}%</strong>
+                <span>Average</span>
+            </div>
+
+        </div>
+
+        <p class="chart-description">
+            Overall student average performance
+        </p>
+    </div>
+
+    <div class="analytics-card">
+        <h3>Pass vs Fail</h3>
+
+        <div class="donut-chart pass-fail-chart"
+             style="--percentage: {{ (passed_students / total_students * 100) if total_students > 0 else 0 }};">
+
+            <div class="donut-inner">
+                <strong>{{ total_students }}</strong>
+                <span>Total Students</span>
+            </div>
+
+        </div>
+
+        <div class="chart-legend">
+            <p class="pass">● Passed: {{ passed_students }}</p>
+            <p class="fail">● Failed: {{ failed_students }}</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="analytics-card subject-card">
+    <h3>Subject-wise Average Marks</h3>
+
+    <div class="subject-average">
+        <p>Mathematics</p>
+        <div class="progress-track">
+            <div class="progress-fill" style="width: {{ average_maths }}%;"></div>
+        </div>
+        <strong>{{ average_maths }}/100</strong>
+    </div>
+
+    <div class="subject-average">
+        <p>Physics</p>
+        <div class="progress-track">
+            <div class="progress-fill" style="width: {{ average_physics }}%;"></div>
+        </div>
+        <strong>{{ average_physics }}/100</strong>
+    </div>
+
+    <div class="subject-average">
+        <p>Chemistry</p>
+        <div class="progress-track">
+            <div class="progress-fill" style="width: {{ average_chemistry }}%;"></div>
+        </div>
+        <strong>{{ average_chemistry }}/100</strong>
+    </div>
+
+</div>
+
+{% endblock %}
