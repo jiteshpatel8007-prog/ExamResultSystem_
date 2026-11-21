@@ -1,31 +1,116 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}Exam Result System{% endblock %}</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>🎓 Exam Result Management System</h1>
-            <p class="subtitle">Rungta International Skills University | IBM Collaboration</p>
-        </header>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash {{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+    <div class="desktop-app">
 
-        {% block content %}{% endblock %}
+        <!-- Sidebar -->
+        <aside class="sidebar">
 
-        <footer>
-            <p>© 2026 Exam Result Management System | Rungta University</p>
-        </footer>
+            <div class="sidebar-brand">
+                <div class="brand-icon">🎓</div>
+                <div>
+                    <h2>Exam Result</h2>
+                    <span>Management System</span>
+                </div>
+            </div>
+
+            <div class="sidebar-menu">
+
+                <p class="menu-heading">MAIN MENU</p>
+
+                <a href="/" class="sidebar-link">
+                    <span>▦</span>
+                    Dashboard
+                </a>
+
+                <a href="/add" class="sidebar-link">
+                    <span>＋</span>
+                    Add Student
+                </a>
+
+                <a href="/view" class="sidebar-link">
+                    <span>▤</span>
+                    Student Records
+                </a>
+
+                <a href="/rank" class="sidebar-link">
+                    <span>🏆</span>
+                    Rank List
+                </a>
+
+                <a href="/average" class="sidebar-link">
+                    <span>◉</span>
+                    Performance Analytics
+                </a>
+
+            </div>
+
+            <div class="sidebar-bottom">
+                <p>IBM Collaboration</p>
+                <span>Rungta International Skills University</span>
+            </div>
+
+        </aside>
+
+        <!-- Main Application Area -->
+        <div class="main-area">
+
+            <!-- Top Header -->
+            <header class="app-topbar">
+
+                <div>
+                    <h2>Exam Result Management System</h2>
+                    <p>Student Examination Portal</p>
+                </div>
+
+                <div class="topbar-profile">
+                    <span class="profile-icon">JP</span>
+                    <div>
+                        <strong>Jitesh Patel</strong>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+
+            </header>
+
+            <!-- Page Content -->
+            <main class="app-content">
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+
+            </main>
+
+            <!-- Footer -->
+            <footer class="app-footer">
+                © 2026 Exam Result Management System
+                <span>Rungta International Skills University | IBM</span>
+            </footer>
+
+        </div>
+
     </div>
+
 </body>
 </html>
